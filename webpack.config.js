@@ -18,6 +18,9 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
   },
+  devServer: {
+    contentBase: './dist'
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'index.js',
