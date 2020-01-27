@@ -8,20 +8,46 @@ export class MoveTimer {
   private playing = false;
   private listeners: Set<Listener> = new Set();
 
-  play(): void {
+  private startDateValue: number;
+  private timer: number;
+
+  play(): MoveTimer {
+    if (this.isPlaying) {
+      return this;
+    }
+    if (this.isComplete) {
+      this.reset();
+    }
     this.playing = true;
+    this.publish();
+    this.timer = setInterval(() => {
+      this.value = Math.max(
+        0,
+        this.startValue - (Date.now() - this.startDateValue),
+      );
+      if (this.value === 0) {
+        this.pause();
+      }
+      this.publish();
+    }, 1);
+    return this;
   }
 
-  pause(): void {
+  pause(): MoveTimer {
     this.playing = false;
+    clearInterval(this.timer);
+    return this;
   }
 
-  stop(): void {
-    this.playing = false;
+  stop(): MoveTimer {
+    this.pause();
+    this.value = this.startValue;
+    return this;
   }
 
   destroy(): void {
-    this.playing = false;
+    this.stop();
+    this.listeners.clear();
   }
 
   changeTime(milliseconds: number): MoveTimer {
@@ -41,13 +67,28 @@ export class MoveTimer {
     return this.playing;
   }
 
-  // addTickListener(listener: Listener): MoveTimer {
-  //   this.listeners.add(listener);
-  //   return this;
-  // }
+  addTimeListener(listener: Listener): MoveTimer {
+    this.listeners.add(listener);
+    return this;
+  }
 
   // removeTickListener(listener: Listener): MoveTimer {
   //   this.listeners.delete(listener);
   //   return this;
   // }
+
+  private get isComplete(): boolean {
+    return this.value === 0 || this.value === this.startValue;
+  }
+
+  private reset(): void {
+    this.value = this.startValue;
+    this.startDateValue = Date.now();
+  }
+
+  private publish(): void {
+    this.listeners.forEach((listener: Listener) => {
+      listener(this.value);
+    });
+  }
 }
