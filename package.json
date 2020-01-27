@@ -4,8 +4,9 @@
   "description": "App to publish move reminders",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
     "start": "webpack-dev-server --open",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --coverage",
     "build": "webpack"
   },
   "jest": {
