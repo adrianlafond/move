@@ -72,10 +72,10 @@ export class MoveTimer {
     return this;
   }
 
-  // removeTickListener(listener: Listener): MoveTimer {
-  //   this.listeners.delete(listener);
-  //   return this;
-  // }
+  removeTimeListener(listener: Listener): MoveTimer {
+    // this.listeners.delete(listener);
+    return this;
+  }
 
   private get isComplete(): boolean {
     return this.value === 0 || this.value === this.startValue;

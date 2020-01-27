@@ -14,8 +14,20 @@ describe('MoveTimer', () => {
     timer = new MoveTimer();
   });
 
-  it(`starts with a time equal to DEFAULT_MILLISECONDS`, () => {
-    expect(timer.time).toEqual(DEFAULT_MILLISECONDS);
+  describe('changeTime()', () => {
+    it(`starts with a time equal to DEFAULT_MILLISECONDS`, () => {
+      expect(timer.time).toEqual(DEFAULT_MILLISECONDS);
+    });
+
+    it(`updates the time`, () => {
+      timer.changeTime(DEFAULT_MILLISECONDS + 1000);
+      expect(timer.time).toEqual(DEFAULT_MILLISECONDS + 1000);
+    });
+
+    it(`resets the time to DEFAULT_MILLISECONDS if changed to a value < 0`, () => {
+      timer.changeTime(-1000);
+      expect(timer.time).toEqual(DEFAULT_MILLISECONDS);
+    });
   });
 
   describe(`returns an instance reference from relevant methods for chaining`, () => {
@@ -36,6 +48,16 @@ describe('MoveTimer', () => {
 
     it(`returns instance from changeTime()`, () => {
       const instance = timer.changeTime(10000);
+      expect(instance).toBe(timer);
+    });
+
+    it(`returns instance from addTimeListener()`, () => {
+      const instance = timer.addTimeListener(() => undefined);
+      expect(instance).toBe(timer);
+    });
+
+    it(`returns instance from removeTimeListener()`, () => {
+      const instance = timer.removeTimeListener(() => undefined);
       expect(instance).toBe(timer);
     });
   });
@@ -96,18 +118,6 @@ describe('MoveTimer', () => {
         }
       });
       timer.play();
-    });
-  });
-
-  describe('changeTime()', () => {
-    it(`updates the time`, () => {
-      timer.changeTime(DEFAULT_MILLISECONDS + 1000);
-      expect(timer.time).toEqual(DEFAULT_MILLISECONDS + 1000);
-    });
-
-    it(`resets the time to DEFAULT_MILLISECONDS if changed to a value < 0`, () => {
-      timer.changeTime(-1000);
-      expect(timer.time).toEqual(DEFAULT_MILLISECONDS);
     });
   });
 });
