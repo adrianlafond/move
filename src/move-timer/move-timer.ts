@@ -20,16 +20,7 @@ export class MoveTimer {
     }
     this.playing = true;
     this.publish();
-    this.timer = setInterval(() => {
-      this.value = Math.max(
-        0,
-        this.startValue - (Date.now() - this.startDateValue),
-      );
-      if (this.value === 0) {
-        this.pause();
-      }
-      this.publish();
-    }, 1);
+    this.timer = setInterval(this.onTick.bind(this), 1);
     return this;
   }
 
@@ -70,6 +61,10 @@ export class MoveTimer {
     return this.playing;
   }
 
+  get isComplete(): boolean {
+    return this.value === 0 || this.value === this.startValue;
+  }
+
   addTimeListener(listener: Listener): MoveTimer {
     this.listeners.add(listener);
     return this;
@@ -80,18 +75,23 @@ export class MoveTimer {
     return this;
   }
 
-  get isComplete(): boolean {
-    return this.value === 0 || this.value === this.startValue;
-  }
-
-  private reset(): void {
-    this.value = this.startValue;
-    this.startDateValue = Date.now();
+  private onTick(): void {
+    const elapsed = Date.now() - this.startDateValue;
+    this.value = Math.max(0, this.startValue - elapsed);
+    if (this.value === 0) {
+      this.pause();
+    }
+    this.publish();
   }
 
   private publish(): void {
     this.listeners.forEach((listener: Listener) => {
       listener(this.value);
     });
+  }
+
+  private reset(): void {
+    this.value = this.startValue;
+    this.startDateValue = Date.now();
   }
 }
