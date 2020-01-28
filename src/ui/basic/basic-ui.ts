@@ -11,6 +11,7 @@ export class BasicUi {
     this.time = document.querySelector('.basic-ui__time');
     this.btnAction = document.querySelector('.basic-ui__button-action');
     this.btnReset = document.querySelector('.basic-ui__button-reset');
+    this.timer.changeTime(2000);
     this.onTime(timer.time);
   }
 
@@ -30,10 +31,13 @@ export class BasicUi {
   }
 
   private onTime(milliseconds: number): void {
-    this.time.textContent = `${TimeDisplay.toMinutesSeconds(
-      milliseconds,
-      true,
-    )}`;
+    const isComplete = milliseconds === 0;
+    this.time.textContent = isComplete
+      ? 'Move!'
+      : `${TimeDisplay.toMinutesSeconds(milliseconds, true)}`;
+    if (isComplete) {
+      this.btnAction.textContent = 'Start';
+    }
   }
 
   private onAction(): void {
