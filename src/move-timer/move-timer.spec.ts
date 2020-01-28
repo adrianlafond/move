@@ -1,4 +1,4 @@
-import { MoveTimer, Listener, DEFAULT_MILLISECONDS } from './move-timer';
+import { MoveTimer, DEFAULT_MILLISECONDS } from './move-timer';
 
 function delay(milliseconds = 100): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, milliseconds));
