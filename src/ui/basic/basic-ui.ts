@@ -1,4 +1,5 @@
 import { MoveTimer } from '../../move-timer';
+import { TimeDisplay } from '../../time-display';
 
 export class BasicUi {
   private time: HTMLElement;
@@ -10,6 +11,7 @@ export class BasicUi {
     this.time = document.querySelector('.basic-ui__time');
     this.btnAction = document.querySelector('.basic-ui__button-action');
     this.btnReset = document.querySelector('.basic-ui__button-reset');
+    this.onTime(timer.time);
   }
 
   start(): void {
@@ -28,7 +30,10 @@ export class BasicUi {
   }
 
   private onTime(milliseconds: number): void {
-    this.time.textContent = `${milliseconds}`;
+    this.time.textContent = `${TimeDisplay.toMinutesSeconds(
+      milliseconds,
+      true,
+    )}`;
   }
 
   private onAction(): void {
