@@ -7,7 +7,7 @@ describe('TimeDisplay', () => {
     });
 
     it(`converts milliseconds to minutes:seconds, padding minutes with zeroes`, () => {
-      expect(TimeDisplay.toMinutesSeconds(181001, true)).toEqual('03:02');
+      expect(TimeDisplay.toMinutesSecondsWithZeroes(181001)).toEqual('03:02');
     });
   });
 });

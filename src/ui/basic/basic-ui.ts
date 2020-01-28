@@ -34,7 +34,7 @@ export class BasicUi {
     const isComplete = milliseconds === 0;
     this.time.textContent = isComplete
       ? 'Move!'
-      : `${TimeDisplay.toMinutesSeconds(milliseconds, true)}`;
+      : `${TimeDisplay.toMinutesSecondsWithZeroes(milliseconds)}`;
     if (isComplete) {
       this.btnAction.textContent = 'Start';
     }

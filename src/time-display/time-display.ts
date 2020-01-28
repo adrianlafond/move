@@ -16,4 +16,8 @@ export class TimeDisplay {
     const seconds = TimeDisplay.padZeroes(totalSeconds % 60);
     return `${minutes}:${seconds}`;
   }
+
+  static toMinutesSecondsWithZeroes(milliseconds: number): string {
+    return TimeDisplay.toMinutesSeconds(milliseconds, true);
+  }
 }
