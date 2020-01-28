@@ -1,5 +1,7 @@
 import { MoveTimer } from './move-timer';
+import { BasicUi } from './ui/basic';
 import './index.css';
 
 const moveTimer = new MoveTimer();
-moveTimer.play();
+const ui = new BasicUi(moveTimer);
+ui.start();

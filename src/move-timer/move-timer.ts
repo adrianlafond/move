@@ -31,14 +31,15 @@ export class MoveTimer {
   }
 
   stop(): MoveTimer {
-    this.pause();
     this.value = this.startValue;
+    this.publish();
+    this.pause();
     return this;
   }
 
   destroy(): void {
-    this.stop();
     this.listeners.clear();
+    this.stop();
   }
 
   changeTime(milliseconds: number): MoveTimer {
