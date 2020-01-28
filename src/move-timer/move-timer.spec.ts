@@ -97,6 +97,66 @@ describe('MoveTimer', () => {
       timer.destroy();
       expect(timer.isPlaying).toBe(false);
     });
+
+    it(`resets if play() called after stop()`, async done => {
+      timer.play();
+      await delay();
+      timer.stop();
+      expect(timer.isPlaying).toBe(false);
+      expect(timer.isComplete).toBe(true);
+      timer.addTimeListener((milliseconds: number) => {
+        expect(milliseconds).toEqual(DEFAULT_MILLISECONDS);
+        done();
+      });
+      timer.play();
+    });
+
+    it(`does not reset if play() called after pause()`, async done => {
+      timer.play();
+      await delay();
+      timer.pause();
+      expect(timer.isPlaying).toBe(false);
+      expect(timer.isComplete).toBe(false);
+      timer.addTimeListener((milliseconds: number) => {
+        expect(milliseconds).toBeLessThan(DEFAULT_MILLISECONDS);
+        done();
+      });
+      timer.play();
+    });
+
+    it(`resets if play() called after completing`, done => {
+      const TOTAL_MILLISECONDS = 100;
+
+      const listenerB = (milliseconds: number): void => {
+        expect(milliseconds).toEqual(TOTAL_MILLISECONDS);
+        done();
+      };
+
+      const listenerA = async (milliseconds: number): Promise<void> => {
+        if (milliseconds === 0) {
+          expect(timer.isPlaying).toBe(false);
+          expect(timer.time).toBe(0);
+          timer.removeTimeListener(listenerA);
+          await delay();
+          timer.addTimeListener(listenerB);
+          timer.play();
+        }
+      };
+
+      timer.changeTime(TOTAL_MILLISECONDS);
+      timer.addTimeListener(listenerA);
+      timer.play();
+    });
+
+    it(`updates time if total time is changed lower than current time`, async done => {
+      timer.play();
+      await delay();
+      timer.addTimeListener((milliseconds: number) => {
+        expect(milliseconds).toEqual(100);
+        done();
+      });
+      timer.changeTime(100);
+    });
   });
 
   describe(`events`, () => {

@@ -56,6 +56,9 @@ export class MoveTimer {
     this.value = isReset
       ? this.startValue
       : Math.min(this.startValue, this.value);
+    if (this.isPlaying) {
+      this.publish();
+    }
     return this;
   }
 
@@ -77,7 +80,7 @@ export class MoveTimer {
     return this;
   }
 
-  private get isComplete(): boolean {
+  get isComplete(): boolean {
     return this.value === 0 || this.value === this.startValue;
   }
 
