@@ -73,7 +73,7 @@ export class MoveTimer {
   }
 
   removeTimeListener(listener: Listener): MoveTimer {
-    // this.listeners.delete(listener);
+    this.listeners.delete(listener);
     return this;
   }
 

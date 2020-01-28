@@ -1,4 +1,4 @@
-import { MoveTimer, DEFAULT_MILLISECONDS } from './move-timer';
+import { MoveTimer, Listener, DEFAULT_MILLISECONDS } from './move-timer';
 
 function delay(milliseconds = 100): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -72,6 +72,14 @@ describe('MoveTimer', () => {
       expect(timer.isPlaying).toBe(true);
     });
 
+    it(`merely returns instance if play() is called while already playing`, () => {
+      timer.play();
+      expect(timer.isPlaying).toBe(true);
+      const instance = timer.play();
+      expect(timer.isPlaying).toBe(true);
+      expect(instance).toBe(timer);
+    });
+
     it(`sets playing to false on pause()`, () => {
       timer.play();
       timer.pause();
@@ -118,6 +126,36 @@ describe('MoveTimer', () => {
         }
       });
       timer.play();
+    });
+
+    it(`stops publishing to a removed listener`, async done => {
+      const listener = jest.fn(() => undefined);
+
+      // Add a listener which will be called immediately on play().
+      timer.addTimeListener(listener);
+      timer.play();
+      expect(listener.mock.calls.length).toBe(1);
+
+      // After some time has passed, the listener will have been called
+      // numerous times.
+      await delay();
+      const callsLength = listener.mock.calls.length;
+      expect(callsLength).toBeGreaterThan(1);
+
+      // The timer continues to play but the listener is removed, so number of
+      // calls does not increase.
+      timer.removeTimeListener(listener);
+      await delay();
+      expect(listener.mock.calls.length).toBe(callsLength);
+      done();
+    });
+
+    it(`adds and calls the same listener only once per play event`, () => {
+      const listener = jest.fn(() => undefined);
+      timer.addTimeListener(listener);
+      timer.addTimeListener(listener);
+      timer.play();
+      expect(listener.mock.calls.length).toBe(1);
     });
   });
 });
