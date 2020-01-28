@@ -27,7 +27,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Move!'
+      template: './src/index.ejs',
+      templateParameters: {
+        title: 'Move!',
+      },
     }),
     new CleanWebpackPlugin()
   ],
