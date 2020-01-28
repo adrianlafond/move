@@ -13,6 +13,11 @@ module.exports = {
         use: 'awesome-typescript-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.css$/i,
+        exclude: /\.module\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   resolve: {
