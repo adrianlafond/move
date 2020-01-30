@@ -11,7 +11,6 @@ export class BasicUi {
     this.time = document.querySelector('.basic-ui__time');
     this.btnAction = document.querySelector('.basic-ui__button-action');
     this.btnReset = document.querySelector('.basic-ui__button-reset');
-    this.timer.changeTime(2000);
     this.onTime(timer.time);
   }
 

@@ -7,7 +7,9 @@
     "start": "webpack-dev-server --open",
     "test": "jest --coverage",
     "test:watch": "jest --watch --coverage",
-    "build": "webpack"
+    "build": "webpack --config webpack.config.prod.js",
+    "predeploy:": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "jest": {
     "transform": {
@@ -42,6 +44,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "gh-pages": "^2.2.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^25.1.0",
     "prettier": "^1.19.1",
