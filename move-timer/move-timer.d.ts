@@ -15,6 +15,7 @@ export declare class MoveTimer {
     get time(): number;
     get isPlaying(): boolean;
     get isComplete(): boolean;
+    get isReset(): boolean;
     addTimeListener(listener: Listener): MoveTimer;
     removeTimeListener(listener: Listener): MoveTimer;
     private onTick;
