@@ -1,1 +1,2 @@
-export { Basic } from './basic';
+export * from './types';
+export * from './basic';
