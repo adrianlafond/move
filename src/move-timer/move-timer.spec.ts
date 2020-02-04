@@ -20,6 +20,7 @@ describe('MoveTimer', () => {
     });
 
     it(`updates the time`, () => {
+      expect(timer.isReset).toBe(true);
       timer.changeTime(DEFAULT_MILLISECONDS + 1000);
       expect(timer.time).toEqual(DEFAULT_MILLISECONDS + 1000);
     });
@@ -99,11 +100,14 @@ describe('MoveTimer', () => {
     });
 
     it(`resets if play() called after stop()`, async done => {
+      expect(timer.isReset).toBe(true);
+      expect(timer.isComplete).toBe(false);
       timer.play();
       await delay();
       timer.stop();
       expect(timer.isPlaying).toBe(false);
-      expect(timer.isComplete).toBe(true);
+      expect(timer.isReset).toBe(true);
+      expect(timer.isComplete).toBe(false);
       timer.addTimeListener((milliseconds: number) => {
         expect(milliseconds).toEqual(DEFAULT_MILLISECONDS);
         done();
@@ -112,10 +116,13 @@ describe('MoveTimer', () => {
     });
 
     it(`does not reset if play() called after pause()`, async done => {
+      expect(timer.isReset).toBe(true);
+      expect(timer.isComplete).toBe(false);
       timer.play();
       await delay();
       timer.pause();
       expect(timer.isPlaying).toBe(false);
+      expect(timer.isReset).toBe(false);
       expect(timer.isComplete).toBe(false);
       timer.addTimeListener((milliseconds: number) => {
         expect(milliseconds).toBeLessThan(DEFAULT_MILLISECONDS);
@@ -125,10 +132,15 @@ describe('MoveTimer', () => {
     });
 
     it(`resets if play() called after completing`, done => {
+      expect(timer.isReset).toBe(true);
+      expect(timer.isComplete).toBe(false);
+
       const TOTAL_MILLISECONDS = 100;
 
       const listenerB = (milliseconds: number): void => {
         expect(milliseconds).toEqual(TOTAL_MILLISECONDS);
+        expect(timer.isReset).toBe(true);
+        expect(timer.isComplete).toBe(false);
         done();
       };
 
@@ -136,6 +148,8 @@ describe('MoveTimer', () => {
         if (milliseconds === 0) {
           expect(timer.isPlaying).toBe(false);
           expect(timer.time).toBe(0);
+          expect(timer.isReset).toBe(false);
+          expect(timer.isComplete).toBe(true);
           timer.removeTimeListener(listenerA);
           await delay();
           timer.addTimeListener(listenerB);
