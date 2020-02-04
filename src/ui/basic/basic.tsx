@@ -47,7 +47,7 @@ export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
     <div className="basic">
       <h1 className="basic__time">{time}</h1>
       <button onClick={onAction} className="basic__button">{actionLabel}</button>
-      <button onClick={onReset} className="basic__button">Reset</button>
+      <button onClick={onReset} className="basic__button" disabled={timer.isReset}>Reset</button>
     </div>
   );
 };
