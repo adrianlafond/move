@@ -15,7 +15,7 @@ export class MoveTimer {
     if (this.isPlaying) {
       return this;
     }
-    if (this.isComplete) {
+    if (this.isComplete || this.isReset) {
       this.reset();
     }
     this.playing = true;
@@ -43,11 +43,11 @@ export class MoveTimer {
   }
 
   changeTime(milliseconds: number): MoveTimer {
-    const isReset = this.value === this.startValue;
-    this.startValue = milliseconds < 0 ? DEFAULT_MILLISECONDS : milliseconds;
-    this.value = isReset
-      ? this.startValue
-      : Math.min(this.startValue, this.value);
+    const newValue = milliseconds < 0 ? DEFAULT_MILLISECONDS : milliseconds;
+    this.value = this.isReset
+      ? newValue
+      : Math.min(newValue, this.value);
+    this.startValue = newValue;
     if (this.isPlaying) {
       this.publish();
     }
@@ -63,7 +63,11 @@ export class MoveTimer {
   }
 
   get isComplete(): boolean {
-    return this.value === 0 || this.value === this.startValue;
+    return this.value === 0;
+  }
+
+  get isReset(): boolean {
+    return this.value === this.startValue;
   }
 
   addTimeListener(listener: Listener): MoveTimer {
