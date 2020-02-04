@@ -18,6 +18,10 @@ module.exports = {
         exclude: /\.module\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(png|jpe?g|gif|ico)$/i,
+        loader: 'file-loader',
+      }
     ],
   },
   resolve: {
