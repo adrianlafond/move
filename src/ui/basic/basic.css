@@ -1,15 +1,19 @@
 .basic {
-  font-family: monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.basic__inner {
+  /* */
 }
 .basic__time {
-  font-weight: normal;
+  margin: 0;
 }
 .basic__button {
-  border-radius: 0;
-  border: 1px solid black;
-  background-color: white;
-  cursor: pointer;
+  /* */
 }
 .basic__button:disabled {
-  border-color: lightgray;
+  /* */
 }
