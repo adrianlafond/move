@@ -22,7 +22,7 @@ export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
   }
 
   function onAction() {
-    if(timer.isPlaying) {
+    if (timer.isPlaying) {
       timer.pause();
       setActionLabel('Start');
     } else {
