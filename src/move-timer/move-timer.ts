@@ -17,6 +17,8 @@ export class MoveTimer {
     }
     if (this.isComplete || this.isReset) {
       this.reset();
+    } else {
+      this.startDateValue = Date.now() - (this.startValue - this.value);
     }
     this.playing = true;
     this.publish();
