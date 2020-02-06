@@ -32,7 +32,8 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
   },
   devServer: {
-    contentBase: './dist'
+    contentBase: './dist',
+    historyApiFallback: true,
   },
   output: {
     path: path.resolve(__dirname, './dist'),

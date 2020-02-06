@@ -1,5 +1,6 @@
 import { h, FunctionalComponent } from 'preact';
 import { useState, useEffect, useContext } from 'preact/hooks';
+import page from 'page';
 import * as cogIcon from 'typicons.font/src/svg/cog-outline.svg';
 
 import { AppContext } from '../../app';
@@ -42,6 +43,10 @@ export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
     setActionLabel('Start');
   }
 
+  function onSettings() {
+    page.show('/settings');
+  }
+
   useEffect(() => {
     timer.addTimeListener(onTime);
     return () => {
@@ -71,6 +76,7 @@ export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
           </button>
           <button
             title="Settings"
+            onClick={onSettings}
             className="basic__button basic__button--icon"
             dangerouslySetInnerHTML={{ __html: cogIconStr }}
           />
