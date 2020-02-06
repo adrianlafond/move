@@ -37,7 +37,14 @@
   color: blue;
 }
 .theme-default .basic__button--icon {
-  padding-top: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+.theme-default .basic__button:focus:not(:disabled).basic__button--icon > svg {
+  fill: blue
+}
+
+.theme-default .basic__button--icon > svg {
+  width: 24px;
 }
 
 .theme-default .basic__button:disabled {
