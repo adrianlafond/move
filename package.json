@@ -58,6 +58,7 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
-    "preact": "^10.3.0"
+    "preact": "^10.3.0",
+    "typicons.font": "^2.0.9"
   }
 }

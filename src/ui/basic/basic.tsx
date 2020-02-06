@@ -1,5 +1,6 @@
 import { h, FunctionalComponent } from 'preact';
 import { useState, useEffect, useContext } from 'preact/hooks';
+import cogIconUrl from 'typicons.font/src/svg/cog-outline.svg';
 
 import { AppContext } from '../../app';
 import { UiProps } from '../types';
@@ -52,8 +53,13 @@ export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
     <div className={`basic theme-${theme}`}>
       <div className='basic__inner'>
         <h1 className="basic__time">{time}</h1>
-        <button onClick={onAction} className="basic__button">{actionLabel}</button>
-        <button onClick={onReset} className="basic__button" disabled={timer.isReset}>Reset</button>
+        <div className="basic__controls">
+          <button title={actionLabel} onClick={onAction} className="basic__button">{actionLabel}</button>
+          <button title="Reset" onClick={onReset} className="basic__button" disabled={timer.isReset}>Reset</button>
+          <button title="Settings" className="basic__button basic__button--icon">
+            <img src={cogIconUrl} alt="" />
+          </button>
+        </div>
       </div>
     </div>
   );
