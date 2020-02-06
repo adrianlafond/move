@@ -56,10 +56,24 @@ export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
       <div className='basic__inner'>
         <h1 className="basic__time">{time}</h1>
         <div className="basic__controls">
-          <button title={actionLabel} onClick={onAction} className="basic__button">{actionLabel}</button>
-          <button title="Reset" onClick={onReset} className="basic__button" disabled={timer.isReset}>Reset</button>
-          <button title="Settings" className="basic__button basic__button--icon" dangerouslySetInnerHTML={{ __html: cogIconStr }}>
+          <button
+            title={actionLabel}
+            onClick={onAction}
+            className="basic__button">
+            {actionLabel}
           </button>
+          <button
+            title="Reset"
+            onClick={onReset}
+            className="basic__button"
+            disabled={timer.isReset}>
+            Reset
+          </button>
+          <button
+            title="Settings"
+            className="basic__button basic__button--icon"
+            dangerouslySetInnerHTML={{ __html: cogIconStr }}
+          />
         </div>
       </div>
     </div>
