@@ -7,8 +7,8 @@ import { AppContext } from '../../app';
 import { UiProps } from '../types';
 import { TimeDisplay } from '../../time-display';
 
-import './basic.css';
-import './themes/default.css';
+import '../shared/basic.css';
+import '../themes/default.css';
 
 export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
   const { theme } = useContext(AppContext);
@@ -58,7 +58,7 @@ export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
 
   return (
     <div className={`basic theme-${theme}`}>
-      <div className='basic__inner'>
+      <div className='basic__time-main'>
         <h1 className="basic__time">{time}</h1>
         <div className="basic__controls">
           <button
