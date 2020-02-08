@@ -1,8 +1,14 @@
+import { isNotModified, isCtrl } from './utils';
+
 /**
  * Keyboard commands for control of the *time* view.
  */
 export class KbTime {
-  constructor(private onAction: () => void, private onReset: () => void) {
+  constructor(
+    private onAction: () => void,
+    private onReset: () => void,
+    private onSettings: () => void,
+  ) {
     this.onKeyPress = this.onKeyPress.bind(this);
     this.initialize();
   }
@@ -10,13 +16,20 @@ export class KbTime {
   private onKeyPress(event: KeyboardEvent) {
     switch (event.key) {
       case ' ':
-        if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
+        if (isNotModified(event)) {
           this.onAction();
         }
         break;
-      case 'R':
-        if (!event.altKey && !event.ctrlKey && event.shiftKey) {
+      case 'r':
+        if (isCtrl(event)) {
           this.onReset();
+          event.preventDefault();
+        }
+        break;
+      case ',':
+        if (isCtrl(event)) {
+          this.onSettings();
+          event.preventDefault();
         }
         break;
       default:

@@ -67,11 +67,11 @@
   border-color: gray gainsboro gainsboro gray;
 }
 
-.theme-default .basic__input-time-container {}
-.theme-default .basic__input-time-label {
+.theme-default .input-time-container {}
+.theme-default .input-time-label {
   display: block;
 }
-.theme-default .basic__input-time {
+.theme-default .input-time {
   font-size: 1rem;
   height: 2.25rem;
   width: 4rem;
@@ -81,7 +81,7 @@
   padding: 0 0.5rem;
   margin: 0 0.25rem 0 0;
 }
-.theme-default .basic__input-time:focus {
+.theme-default .input-time:focus {
   outline: 1px dotted black;
   outline-offset: -6px;
   color: blue;

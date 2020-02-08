@@ -6,7 +6,7 @@ import * as cogIcon from 'typicons.font/src/svg/cog-outline.svg';
 import { AppContext } from '../../app';
 import { UiProps } from '../types';
 import { TimeDisplay } from '../../time-display';
-import { KbTime } from '../kb-time';
+import { KbTime } from '../keyboard';
 
 import '../shared/basic.css';
 import '../themes/default.css';
@@ -50,7 +50,7 @@ export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
   }
 
   useEffect(() => {
-    const kb = new KbTime(onAction, onReset);
+    const kb = new KbTime(onAction, onReset, onSettings);
     timer.addTimeListener(onTime);
     return () => {
       timer.removeTimeListener(onTime);

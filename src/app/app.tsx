@@ -3,6 +3,7 @@ import { useState, useEffect } from 'preact/hooks';
 import page from 'page';
 import { Settings } from '../ui/settings';
 import { Basic } from '../ui/basic';
+import '../ui/shared/basic.css';
 import { AppContext, startContext } from './app-context';
 
 type PathType = 'time' | 'settings';
