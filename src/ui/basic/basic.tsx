@@ -52,7 +52,7 @@ export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
     return () => {
       timer.removeTimeListener(onTime);
     };
-  });
+  }, []);
 
   const cogIconStr = cogIcon as unknown as string;
 

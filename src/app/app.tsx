@@ -5,9 +5,11 @@ import { Settings } from '../ui/settings';
 import { Basic } from '../ui/basic';
 import { AppContext, startContext } from './app-context';
 
+type PathType = 'time' | 'settings';
+
 export const App: FunctionalComponent = () => {
   const [context, setContext] = useState(startContext);
-  const [path, setPath] = useState<'time' | 'settings'>('time');
+  const [path, setPath] = useState<PathType>('time');
 
   useEffect(() => {
     page({ click: false });
