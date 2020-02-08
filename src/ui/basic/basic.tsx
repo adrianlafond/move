@@ -11,21 +11,27 @@ import { KbTime } from '../keyboard';
 import '../shared/basic.css';
 import '../themes/default.css';
 
+const ONE_HOUR = 1000 * 60 * 60;
+
 export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
   const cogIconStr = cogIcon as unknown as string;
   const { theme } = useContext(AppContext);
 
-  const [time, setTime] = useState(
-    `${TimeDisplay.toMinutesSecondsWithZeroes(timer.time)}`,
-  );
+  const [time, setTime] = useState(getDisplayTime());
   const [actionLabel, setActionLabel] = useState('Start');
+
+  function getDisplayTime() {
+    return timer.time < ONE_HOUR
+      ? TimeDisplay.toMSwithZeroes(timer.time)
+      : TimeDisplay.toHMSwithZeroes(timer.time);
+  }
 
   function onTime(milliseconds: number) {
     const isComplete = milliseconds === 0;
     setTime(
       isComplete
         ? 'Move!'
-        : `${TimeDisplay.toMinutesSecondsWithZeroes(milliseconds)}`,
+        : getDisplayTime(),
     );
     setActionLabel(isComplete ? 'Start' : 'Pause');
   }

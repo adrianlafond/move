@@ -12,11 +12,12 @@ const ONE_MINUTE = 60 * 1000;
 export const InputTime: FunctionalComponent = () => {
   const upIconStr = upIcon as unknown as string;
   const downIconStr = downIcon as unknown as string;
+
   const { timer } = useContext(AppContext);
   const [time, setTime] = useState(getDisplayTime());
 
   function getDisplayTime() {
-    return TimeDisplay.toMinutesSecondsWithZeroes(timer.startTime);
+    return TimeDisplay.toHMSwithZeroes(timer.startTime);
   }
 
   function onMoreTime() {
@@ -72,7 +73,7 @@ export const InputTime: FunctionalComponent = () => {
   return (
     <div className="basic__controls">
       <div className="input-time-container">
-        <label className="input-time-label">Minutes:</label>
+        <label className="input-time-label">Start time:</label>
         <input className="input-time" type="text" value={time} />
       </div>
       <button

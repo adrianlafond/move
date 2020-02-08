@@ -7,7 +7,7 @@ export class TimeDisplay {
     return str;
   }
 
-  static toMinutesSeconds(milliseconds: number, padZeroes = false): string {
+  static toMS(milliseconds: number, padZeroes = false): string {
     const totalSeconds = Math.ceil(milliseconds / 1000);
     const totalMinutes = Math.floor(totalSeconds / 60);
     const minutes = padZeroes
@@ -17,7 +17,23 @@ export class TimeDisplay {
     return `${minutes}:${seconds}`;
   }
 
-  static toMinutesSecondsWithZeroes(milliseconds: number): string {
-    return TimeDisplay.toMinutesSeconds(milliseconds, true);
+  static toMSwithZeroes(milliseconds: number): string {
+    return TimeDisplay.toMS(milliseconds, true);
+  }
+
+  static toHMS(milliseconds: number, padZeroes = false): string {
+    const totalSeconds = Math.ceil(milliseconds / 1000);
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const totalHours = Math.floor(totalMinutes / 60);
+    const seconds = TimeDisplay.padZeroes(totalSeconds % 60);
+    const minutes = TimeDisplay.padZeroes(totalMinutes % 60);
+    const hours = padZeroes
+      ? TimeDisplay.padZeroes(totalHours)
+      : totalHours;
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+  static toHMSwithZeroes(milliseconds: number): string {
+    return this.toHMS(milliseconds, true);
   }
 }
