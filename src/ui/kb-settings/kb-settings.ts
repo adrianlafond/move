@@ -2,7 +2,11 @@
  * Keyboard commands for control of the *settings* view.
  */
 export class KbSettings {
-  constructor(private onUp: () => void, private onDown: () => void) {
+  constructor(
+    private onUp: () => void,
+    private onDown: () => void,
+    private onEsc: () => void,
+  ) {
     this.onKeyPress = this.onKeyPress.bind(this);
     this.initialize();
   }
@@ -19,6 +23,10 @@ export class KbSettings {
         if (notModified) {
           this.onDown();
         }
+        break;
+      case 'Escape':
+        this.onEsc();
+        event.preventDefault();
         break;
       default:
         break;

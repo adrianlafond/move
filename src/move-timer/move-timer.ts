@@ -61,6 +61,10 @@ export class MoveTimer {
     return this.value;
   }
 
+  get startTime(): number {
+    return this.startValue;
+  }
+
   get isPlaying(): boolean {
     return this.playing;
   }

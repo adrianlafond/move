@@ -1,10 +1,12 @@
 import { h, FunctionalComponent } from 'preact';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { useContext } from 'preact/hooks';
+import page from 'page';
 import * as upIcon from 'typicons.font/src/svg/arrow-up-outline.svg';
 import * as downIcon from 'typicons.font/src/svg/arrow-down-outline.svg'
 
 import { KbSettings } from '../kb-settings';
+import { TimeDisplay } from '../../time-display';
 import '../shared/basic.css';
 
 import { AppContext } from '../../app';
@@ -12,18 +14,30 @@ import { AppContext } from '../../app';
 export const Settings: FunctionalComponent = () => {
   const upIconStr = upIcon as unknown as string;
   const downIconStr = downIcon as unknown as string;
-  const { theme } = useContext(AppContext);
+
+  const { theme, timer } = useContext(AppContext);
+  const [time, setTime] = useState(getDisplayTime());
+
+  function getDisplayTime() {
+    return TimeDisplay.toMinutesSecondsWithZeroes(timer.startTime);
+  }
 
   function onMoreTime() {
-    console.log('MORE');
+    timer.changeTime(timer.startTime + 1000 * 60);
+    setTime(getDisplayTime());
   }
 
   function onLessTime() {
-    console.log('LESS');
+    timer.changeTime(timer.startTime - 1000 * 60);
+    setTime(getDisplayTime());
+  }
+
+  function onExit() {
+    page.show('/');
   }
 
   useEffect(() => {
-    const kb = new KbSettings(onMoreTime, onLessTime);
+    const kb = new KbSettings(onMoreTime, onLessTime, onExit);
     return () => {
       kb.destroy();
     };
@@ -37,7 +51,7 @@ export const Settings: FunctionalComponent = () => {
         <div className="basic__controls">
           <div className="basic__input-time-container">
             <label className="basic__input-time-label">Minutes:</label>
-            <input className="basic__input-time" type="text" value="20:00" />
+            <input className="basic__input-time" type="text" value={time} />
           </div>
           <button
             title="Increase Time"
