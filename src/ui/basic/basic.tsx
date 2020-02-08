@@ -12,6 +12,7 @@ import '../shared/basic.css';
 import '../themes/default.css';
 
 export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
+  const cogIconStr = cogIcon as unknown as string;
   const { theme } = useContext(AppContext);
 
   const [time, setTime] = useState(
@@ -49,15 +50,13 @@ export const Basic: FunctionalComponent<UiProps> = ({ timer }) => {
   }
 
   useEffect(() => {
-    const kbTime = new KbTime(onAction, onReset);
+    const kb = new KbTime(onAction, onReset);
     timer.addTimeListener(onTime);
     return () => {
       timer.removeTimeListener(onTime);
-      kbTime.destroy();
+      kb.destroy();
     };
   }, []);
-
-  const cogIconStr = cogIcon as unknown as string;
 
   return (
     <div className={`basic theme-${theme}`}>

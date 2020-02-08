@@ -13,3 +13,8 @@
 .basic__button {}
 .basic__button:disabled {}
 .basic__button--icon {}
+
+.basic__element--full-width {
+  display: block;
+  width: 100%;
+}
