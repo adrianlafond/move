@@ -7,26 +7,26 @@ import { AppContext, startContext } from './app-context';
 
 export const App: FunctionalComponent = () => {
   const [context, setContext] = useState(startContext);
-  const [path, setPath] = useState('/');
+  const [path, setPath] = useState<'time' | 'settings'>('time');
 
   useEffect(() => {
     page({ click: false });
     page('/settings', () => {
-      setPath('/settings');
+      setPath('settings');
     });
     page('/', () => {
-      setPath('/');
+      setPath('time');
     });
     page('*', () => {
-      setPath('/');
+      setPath('time');
     });
     page();
   }, []);
 
   return (
     <AppContext.Provider value={context}>
-      {path === '/' ? <Basic timer={context.timer} /> : null}
-      {path === '/settings' ? <Settings /> : null}
+      {path === 'time' ? <Basic timer={context.timer} /> : null}
+      {path === 'settings' ? <Settings /> : null}
     </AppContext.Provider>
   );
 }
