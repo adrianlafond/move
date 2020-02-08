@@ -3,13 +3,14 @@ export type Listener = (milliseconds: number) => void;
 export const DEFAULT_MILLISECONDS = 20 * 60 * 1000;
 
 export class MoveTimer {
-  private startValue: number = DEFAULT_MILLISECONDS;
   private value: number = this.startValue;
   private playing = false;
   private listeners: Set<Listener> = new Set();
 
   private startDateValue: number;
   private timer: number;
+
+  constructor(private startValue = DEFAULT_MILLISECONDS) {}
 
   play(): MoveTimer {
     if (this.isPlaying) {
