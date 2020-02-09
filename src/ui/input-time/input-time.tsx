@@ -7,6 +7,7 @@ import { AppContext } from '../../app';
 import { isNotModified } from '../keyboard';
 import { TimeDisplay } from '../../time-display';
 
+let uidIndex = 0;
 const ONE_MINUTE = 60 * 1000;
 
 export const InputTime: FunctionalComponent = () => {
@@ -15,6 +16,7 @@ export const InputTime: FunctionalComponent = () => {
 
   const { timer } = useContext(AppContext);
   const [time, setTime] = useState(getDisplayTime());
+  const uid = useRef(`input-time-${uidIndex++}`);
   const kbInput = useRef('');
   const kbInputTimeout = useRef(0);
 
@@ -86,8 +88,17 @@ export const InputTime: FunctionalComponent = () => {
   return (
     <div className="basic__controls">
       <div className="input-time-container">
-        <label className="input-time-label">Start time:</label>
-        <input className="input-time" type="text" value={time} />
+        <label
+          htmlFor={uid.current}
+          className="input-time-label">
+          Start time:
+        </label>
+        <input
+          id={uid.current}
+          className="input-time"
+          type="text"
+          value={time}
+        />
       </div>
       <button
         title="Increase Time"
