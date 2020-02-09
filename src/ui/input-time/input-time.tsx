@@ -15,13 +15,27 @@ export const InputTime: FunctionalComponent = () => {
   const downIconStr = downIcon as unknown as string;
 
   const { timer } = useContext(AppContext);
-  const [time, setTime] = useState(getDisplayTime());
+  const inputEl = useRef<HTMLInputElement>();
+  const focusEntry = useRef(-1);
+  const [displayTime, setDisplayTime] = useState(getDisplayTime());
   const uid = useRef(`input-time-${uidIndex++}`);
   const kbInput = useRef('');
   const kbInputTimeout = useRef(0);
 
   function getDisplayTime() {
-    return TimeDisplay.toHMSwithZeroes(timer.startTime);
+    let display = TimeDisplay.toHMSwithZeroes(timer.startTime);
+    if (isInputFocused()) {
+      display = [
+        display.substring(0, focusEntry.current),
+        '_',
+        display.substring(focusEntry.current + 1),
+      ].join('');
+    }
+    return display;
+  }
+
+  function updateDisplayTime() {
+    setDisplayTime(getDisplayTime());
   }
 
   function onMoreTime() {
@@ -34,7 +48,7 @@ export const InputTime: FunctionalComponent = () => {
 
   function incrementTime(increment: number) {
     timer.changeTime(Math.max(ONE_MINUTE, timer.startTime + increment));
-    setTime(getDisplayTime());
+    updateDisplayTime();
     kbInput.current = '';
   }
 
@@ -44,7 +58,7 @@ export const InputTime: FunctionalComponent = () => {
     timer.changeTime(len < 3
       ? (asMinutes(kbInput.current))
       : (asHours(kbInput.current)));
-    setTime(getDisplayTime());
+    updateDisplayTime();
     clearTimeout(kbInputTimeout.current);
     kbInputTimeout.current = setTimeout(() => {
       kbInput.current = '';
@@ -73,19 +87,50 @@ export const InputTime: FunctionalComponent = () => {
       case '7':
       case '8':
       case '9':
-        inputNumber(event.key);
+        if (isInputBlurred()) {
+          inputNumber(event.key);
+        } else {
+          enterFocusData(event.key);
+        }
         break;
       default:
         break;
     }
   }
 
+  function selectFocusBlank() {
+    setTimeout(() => {
+      inputEl.current.setSelectionRange(focusEntry.current, focusEntry.current + 1);
+    }, 0);
+  }
+
+  function enterFocusData(key: string) {
+    if (focusEntry.current === 4) {
+      inputEl.current.blur();
+    } else {
+      focusEntry.current += focusEntry.current === 1 ? 2 : 1;
+      updateDisplayTime();
+      selectFocusBlank();
+    }
+  }
+
   function onInputFocus() {
-    //
+    focusEntry.current = 0;
+    updateDisplayTime();
+    selectFocusBlank();
   }
 
   function onInputBlur() {
-    //
+    focusEntry.current = -1;
+    updateDisplayTime();
+  }
+
+  function isInputBlurred() {
+    return focusEntry.current === -1;
+  }
+
+  function isInputFocused() {
+    return !isInputBlurred();
   }
 
   useEffect(() => {
@@ -107,7 +152,11 @@ export const InputTime: FunctionalComponent = () => {
           id={uid.current}
           className="input-time"
           type="text"
-          value={time}
+          value={displayTime}
+          onFocus={onInputFocus}
+          onBlur={onInputBlur}
+          ref={inputEl}
+          readOnly
         />
       </div>
       <button
