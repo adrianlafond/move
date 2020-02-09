@@ -1,5 +1,5 @@
 import { h, FunctionalComponent } from 'preact';
-import { useContext, useEffect, useState } from 'preact/hooks';
+import { useContext, useEffect, useState, useRef } from 'preact/hooks';
 import * as upIcon from 'typicons.font/src/svg/arrow-up-outline.svg';
 import * as downIcon from 'typicons.font/src/svg/arrow-down-outline.svg'
 
@@ -15,6 +15,8 @@ export const InputTime: FunctionalComponent = () => {
 
   const { timer } = useContext(AppContext);
   const [time, setTime] = useState(getDisplayTime());
+  const kbInput = useRef('');
+  const kbInputTimeout = useRef(0);
 
   function getDisplayTime() {
     return TimeDisplay.toHMSwithZeroes(timer.startTime);
@@ -23,15 +25,26 @@ export const InputTime: FunctionalComponent = () => {
   function onMoreTime() {
     timer.changeTime(timer.startTime + ONE_MINUTE);
     setTime(getDisplayTime());
+    kbInput.current = '';
   }
 
   function onLessTime() {
     timer.changeTime(Math.max(ONE_MINUTE, timer.startTime - ONE_MINUTE));
     setTime(getDisplayTime());
+    kbInput.current = '';
   }
 
   function inputNumber(num: string) {
-    console.log(num);
+    kbInput.current = `${kbInput.current.substring(kbInput.current.length - 2)}${num}`;
+    const len = kbInput.current.length;
+    timer.changeTime(len < 3
+      ? (asMinutes(kbInput.current))
+      : (asHours(kbInput.current)));
+    setTime(getDisplayTime());
+    clearTimeout(kbInputTimeout.current);
+    kbInputTimeout.current = setTimeout(() => {
+      kbInput.current = '';
+    }, 1000);
   }
 
   function onKeyPress(event: KeyboardEvent) {
@@ -91,3 +104,11 @@ export const InputTime: FunctionalComponent = () => {
     </div>
   );
 };
+
+function asMinutes(input: string) {
+  return +input * 60 * 1000;
+}
+
+function asHours(input: string) {
+  return +(input.charAt(0)) * 60 * 60 * 1000 + asMinutes(input.substring(1));
+}
