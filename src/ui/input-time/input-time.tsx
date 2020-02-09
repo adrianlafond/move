@@ -25,13 +25,15 @@ export const InputTime: FunctionalComponent = () => {
   }
 
   function onMoreTime() {
-    timer.changeTime(timer.startTime + ONE_MINUTE);
-    setTime(getDisplayTime());
-    kbInput.current = '';
+    incrementTime(ONE_MINUTE);
   }
 
   function onLessTime() {
-    timer.changeTime(Math.max(ONE_MINUTE, timer.startTime - ONE_MINUTE));
+    incrementTime(-ONE_MINUTE);
+  }
+
+  function incrementTime(increment: number) {
+    timer.changeTime(Math.max(ONE_MINUTE, timer.startTime + increment));
     setTime(getDisplayTime());
     kbInput.current = '';
   }
