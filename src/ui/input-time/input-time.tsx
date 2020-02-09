@@ -39,7 +39,7 @@ export const InputTime: FunctionalComponent = () => {
   }
 
   function inputNumber(num: string) {
-    kbInput.current = `${kbInput.current.substring(kbInput.current.length - 2)}${num}`;
+    kbInput.current = `${kbInput.current.substring(kbInput.current.length - 3)}${num}`;
     const len = kbInput.current.length;
     timer.changeTime(len < 3
       ? (asMinutes(kbInput.current))
@@ -78,6 +78,14 @@ export const InputTime: FunctionalComponent = () => {
       default:
         break;
     }
+  }
+
+  function onInputFocus() {
+    //
+  }
+
+  function onInputBlur() {
+    //
   }
 
   useEffect(() => {
@@ -123,5 +131,6 @@ function asMinutes(input: string) {
 }
 
 function asHours(input: string) {
-  return +(input.charAt(0)) * 60 * 60 * 1000 + asMinutes(input.substring(1));
+  const hours = input.substring(0, input.length === 4 ? 2 : 1);
+  return +hours * 60 * 60 * 1000 + asMinutes(input.substring(hours.length));
 }
