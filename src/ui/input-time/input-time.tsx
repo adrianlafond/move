@@ -17,6 +17,7 @@ export const InputTime: FunctionalComponent = () => {
   const { timer } = useContext(AppContext);
   const inputEl = useRef<HTMLInputElement>();
   const focusEntry = useRef(-1);
+  const focusEntryStr = useRef('');
   const [displayTime, setDisplayTime] = useState(getDisplayTime());
   const uid = useRef(`input-time-${uidIndex++}`);
   const kbInput = useRef('');
@@ -24,13 +25,13 @@ export const InputTime: FunctionalComponent = () => {
 
   function getDisplayTime() {
     let display = TimeDisplay.toHMSwithZeroes(timer.startTime);
-    if (isInputFocused()) {
-      display = [
-        display.substring(0, focusEntry.current),
-        '_',
-        display.substring(focusEntry.current + 1),
-      ].join('');
-    }
+    // if (isInputFocused()) {
+    //   display = [
+    //     display.substring(0, focusEntry.current),
+    //     '_',
+    //     display.substring(focusEntry.current + 1),
+    //   ].join('');
+    // }
     return display;
   }
 
@@ -104,24 +105,34 @@ export const InputTime: FunctionalComponent = () => {
     }, 0);
   }
 
-  function enterFocusData(key: string) {
+  function updateCharAtIndex(str: string, char: string, index: number) {
+    return `${str.substring(0, index)}${char}${str.substring(index + 1)}`;
+  }
+
+  function enterFocusData(key: string = '') {
+    focusEntryStr.current = updateCharAtIndex(focusEntryStr.current, key, focusEntry.current);
     if (focusEntry.current === 4) {
       inputEl.current.blur();
     } else {
+      let tempDisplayTime = updateCharAtIndex(focusEntryStr.current, key, focusEntry.current);
       focusEntry.current += focusEntry.current === 1 ? 2 : 1;
-      updateDisplayTime();
+      tempDisplayTime = updateCharAtIndex(tempDisplayTime, '_', focusEntry.current);
+      setDisplayTime(tempDisplayTime);
       selectFocusBlank();
     }
   }
 
   function onInputFocus() {
     focusEntry.current = 0;
-    updateDisplayTime();
+    focusEntryStr.current = getDisplayTime();
+    setDisplayTime(updateCharAtIndex(focusEntryStr.current, '_', 0));
     selectFocusBlank();
   }
 
   function onInputBlur() {
     focusEntry.current = -1;
+    const newTime = asHours(focusEntryStr.current.split(':').join('').substring(0, 4));
+    timer.changeTime(newTime);
     updateDisplayTime();
   }
 
@@ -129,9 +140,9 @@ export const InputTime: FunctionalComponent = () => {
     return focusEntry.current === -1;
   }
 
-  function isInputFocused() {
-    return !isInputBlurred();
-  }
+  // function isInputFocused() {
+  //   return !isInputBlurred();
+  // }
 
   useEffect(() => {
     window.addEventListener('keydown', onKeyPress);
@@ -146,7 +157,7 @@ export const InputTime: FunctionalComponent = () => {
         <label
           htmlFor={uid.current}
           className="input-time-label">
-          Start time:
+          HH:MM:SS:
         </label>
         <input
           id={uid.current}
