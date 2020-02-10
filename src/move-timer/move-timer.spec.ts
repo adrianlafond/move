@@ -14,20 +14,28 @@ describe('MoveTimer', () => {
     timer = new MoveTimer();
   });
 
-  describe('changeTime()', () => {
+  describe('default time', () => {
     it(`starts with a time equal to DEFAULT_MILLISECONDS`, () => {
       expect(timer.time).toEqual(DEFAULT_MILLISECONDS);
     });
+    it(`can be instantiated with a custom time`, () => {
+      timer = new MoveTimer(1500);
+      expect(timer.time).toEqual(1500);
+    });
+  });
 
+  describe('changeTime()', () => {
     it(`updates the time`, () => {
       expect(timer.isReset).toBe(true);
       timer.changeTime(DEFAULT_MILLISECONDS + 1000);
       expect(timer.time).toEqual(DEFAULT_MILLISECONDS + 1000);
+      expect(timer.startTime).toEqual(DEFAULT_MILLISECONDS + 1000);
     });
 
     it(`resets the time to DEFAULT_MILLISECONDS if changed to a value < 0`, () => {
       timer.changeTime(-1000);
       expect(timer.time).toEqual(DEFAULT_MILLISECONDS);
+      expect(timer.startTime).toEqual(DEFAULT_MILLISECONDS);
     });
   });
 

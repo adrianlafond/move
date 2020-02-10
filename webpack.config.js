@@ -19,16 +19,28 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|jpe?g|gif|ico)$/i,
+        test: /\.(png|jpe?g|gif)$/i,
         loader: 'file-loader',
-      }
+      },
+      {
+        test: /\.ico$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+        }
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader',
+      },
     ],
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
   devServer: {
-    contentBase: './dist'
+    contentBase: './dist',
+    historyApiFallback: true,
   },
   output: {
     path: path.resolve(__dirname, './dist'),

@@ -16,10 +16,13 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx", "src/ui/standard"
   ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts"
+  ],
+  "files": [
+    "src/custom.d.ts"
   ]
 }

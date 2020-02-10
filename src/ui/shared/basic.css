@@ -1,0 +1,20 @@
+.basic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.basic__time-main {}
+.basic__settings-main {}
+
+.basic__time {}
+.basic__heading {}
+
+.basic__button {}
+.basic__button:disabled {}
+.basic__button--icon {}
+
+.basic__element--full-width {
+  display: block;
+  width: 100%;
+}
