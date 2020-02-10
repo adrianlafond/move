@@ -24,15 +24,7 @@ export const InputTime: FunctionalComponent = () => {
   const kbInputTimeout = useRef(0);
 
   function getDisplayTime() {
-    let display = TimeDisplay.toHMSwithZeroes(timer.startTime);
-    // if (isInputFocused()) {
-    //   display = [
-    //     display.substring(0, focusEntry.current),
-    //     '_',
-    //     display.substring(focusEntry.current + 1),
-    //   ].join('');
-    // }
-    return display;
+    return TimeDisplay.toHMSwithZeroes(timer.startTime);
   }
 
   function updateDisplayTime() {
@@ -139,10 +131,6 @@ export const InputTime: FunctionalComponent = () => {
   function isInputBlurred() {
     return focusEntry.current === -1;
   }
-
-  // function isInputFocused() {
-  //   return !isInputBlurred();
-  // }
 
   useEffect(() => {
     window.addEventListener('keydown', onKeyPress);
