@@ -7,12 +7,14 @@ export declare class MoveTimer {
     private listeners;
     private startDateValue;
     private timer;
+    constructor(startValue?: number);
     play(): MoveTimer;
     pause(): MoveTimer;
     stop(): MoveTimer;
     destroy(): void;
     changeTime(milliseconds: number): MoveTimer;
     get time(): number;
+    get startTime(): number;
     get isPlaying(): boolean;
     get isComplete(): boolean;
     get isReset(): boolean;

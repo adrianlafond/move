@@ -1,2 +1,3 @@
+import 'modern-css-reset';
 import './index.css';
-import './static/favicon.ico';
+import './favicon.ico';
